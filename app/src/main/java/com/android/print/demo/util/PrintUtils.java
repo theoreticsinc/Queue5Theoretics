@@ -20,7 +20,7 @@ import java.util.Date;
 
 public class PrintUtils {
 
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static void printText(Resources resources, PrinterInstance mPrinter) {
         mPrinter.init();
@@ -159,9 +159,10 @@ public class PrintUtils {
         mPrinter.setPrinter(Command.ALIGN, 1);
         mPrinter.setPrinter(Command.PRINT_AND_WAKE_PAPER_BY_LINE, 1);
         //mPrinter.printText("Powered by Theoretics Inc.");
-        mPrinter.printText("Please visit the LeAPS #DigitalBangsamaro");
+        mPrinter.printText("Please visit the LeAPS");
         mPrinter.printText("Portal at https://LeAPS.ph");
-        mPrinter.setPrinter(Command.PRINT_AND_WAKE_PAPER_BY_LINE, 1);
+        mPrinter.setPrinter(Command.PRINT_AND_WAKE_PAPER_BY_LINE, 4);
+        mPrinter.printText("UNDP   Leaps  #DigitalBangsamoro" + "\n");
 
         if (type.startsWith("PRIORITY") == true) {
             MyProperties.getInstance().priorityCount++;

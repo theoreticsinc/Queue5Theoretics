@@ -37,8 +37,6 @@ public class FirstFragment extends Fragment {
         binding.buttonSenior.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HttpHandler hh = new HttpHandler();
-                hh.TestParameterConnection("http://192.168.254.106/undpqueue/testcheck.php?rfid=A3E85F15");activity.priorityCount++;
                 activity.service = "";
                 activity.gender = "";
                 activity.type = "PRIORITY (Senior):";
@@ -51,9 +49,6 @@ public class FirstFragment extends Fragment {
         binding.buttonPwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HttpHandler hh = new HttpHandler();
-                hh.TestParameterConnection("http://192.168.254.106/undpqueue/testcheck.php?rfid=A3E85F15");
-                activity.priorityCount++;
                 activity.service = "";
                 activity.gender = "";
                 activity.type = "PRIORITY (PWD):";
@@ -66,7 +61,6 @@ public class FirstFragment extends Fragment {
         binding.buttonPregnant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.priorityCount++;
                 activity.service = "";
                 activity.gender = "";
                 activity.type = "PRIORITY (Pregnant):";
@@ -79,7 +73,6 @@ public class FirstFragment extends Fragment {
         binding.buttonRegular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.regularCount++;
                 activity.service = "";
                 activity.gender = "";
                 activity.type = "REGULAR :";

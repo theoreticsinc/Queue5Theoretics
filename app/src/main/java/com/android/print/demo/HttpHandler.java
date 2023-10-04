@@ -3,6 +3,9 @@ package com.android.print.demo;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.android.print.demo.bean.CONSTANTS;
+import com.android.print.demo.bean.COUNT;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,6 +24,7 @@ import java.util.HashMap;
 public class HttpHandler {
 
         private final String TAG = HttpHandler.class.getSimpleName();
+        private StarterActivity activity;
         public String retStr;
         //private DBHelper dbh;
         String pattern = "yyyy-MM-dd hh:mm:ss";
@@ -652,7 +656,7 @@ public class HttpHandler {
     public void TestConnection2() {
         System.out.println("ANGELO:  Connection Testing... ");
         String url = "http://api.androidhive.info/contacts/";
-        url = "http://192.168.254.101/timecheck.php";
+        url = "http://"+ CONSTANTS.getInstance().getSERVERADDR() + "/timecheck.php";
         HttpHandler sh = new HttpHandler();
 
         // Making a request to url and getting response
@@ -736,7 +740,7 @@ public class HttpHandler {
                         //dbh.updateLDM(ldm);
 
                     }
-                    readJSON(json);
+                    //readJSON(json);
                     System.out.println("ANGELO : [" + i + "]" + sb.toString());
                     //finally returning the read string
                     //Date now = new Date();
@@ -759,7 +763,7 @@ public class HttpHandler {
 
     }
 
-    public void TestParameterConnection(final String urlWebService) {
+    public void RetrieveCurrentCount(final String urlWebService) {
         //final String[] retStr = new String[1];
         /*
          * As fetching the json string is a network operation
@@ -770,7 +774,7 @@ public class HttpHandler {
          * Void -> Nothing at progress update as well
          * String -> After completion it should return a string and it will be the json string
          * */
-        System.out.println("ANGELO:  Connection Testing... ");
+        //System.out.println("ANGELO:  RetrieveCurrentCount... ");
         class GetJSON extends AsyncTask<Void, Void, String> {
 
             //this method will be called before execution
@@ -819,13 +823,101 @@ public class HttpHandler {
                         i++;
                         //appending it to string builder
                         sb.append(json + "\n");
-                        System.out.println("ANGELO : [" + i + "]" + json + "\n");
+                        //System.out.println("ANGELO : [" + i + "]" + json + "\n");
                         //updateModifiedVIP2DB(dbh, json);
                         //dbh.updateLDM(ldm);
 
                     }
-                    readRFID(sb.toString());
-                    System.out.println("ANGELO : [" + i + "]" + sb.toString());
+                    readCount(sb.toString());
+                    //System.out.println("ANGELO : [" + i + "]" + sb.toString());
+                    //finally returning the read string
+                    //Date now = new Date();
+                    //String n = sdf.format(now);
+                    //System.out.println(n);
+                    //dbh.updateLDC(ldm);
+                    //retJSON[0] = readJSON(json);
+
+                    return sb.toString().trim();
+                } catch (Exception e) {
+                    return null;
+                }
+
+            }
+        }
+
+        //creating asynctask object and executing it
+        GetJSON getJSON = new GetJSON();
+        getJSON.execute();
+
+    }
+
+    public void UpdateDisplayConnection(final String urlWebService) {
+        //final String[] retStr = new String[1];
+        /*
+         * As fetching the json string is a network operation
+         * And we cannot perform a network operation in main thread
+         * so we need an AsyncTask
+         * The constrains defined here are
+         * Void -> We are not passing anything
+         * Void -> Nothing at progress update as well
+         * String -> After completion it should return a string and it will be the json string
+         * */
+        //System.out.println("ANGELO:  UpdateDisplayConnection... ");
+        class GetJSON extends AsyncTask<Void, Void, String> {
+
+            //this method will be called before execution
+            //you can display a progress bar or something
+            //so that user can understand that he should wait
+            //as network operation may take some time
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            //this method will be called after execution
+            //so here we are displaying a toast with the json string
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                retStr = s;
+
+            }
+
+            //in this method we are fetching the json string
+            @Override
+            protected String doInBackground(Void... voids) {
+
+                try {
+                    System.out.println("ANGELO : " + urlWebService);
+                    //creating a URL
+                    String u = urlWebService;
+                    URL url = new URL(u);
+
+                    //Opening the URL using HttpURLConnection
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    //StringBuilder object to read the string from the service
+                    StringBuilder sb = new StringBuilder();
+
+                    //We will use a buffered reader to read the string from service
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    //A simple string to read values from each line
+                    String json;
+                    int i = 0;
+                    //reading until we don't find null
+                    while ((json = bufferedReader.readLine()) != null) {
+                        i++;
+                        //appending it to string builder
+                        sb.append(json + "\n");
+                        //System.out.println("ANGELO : [" + i + "]" + json + "\n");
+                        //updateModifiedVIP2DB(dbh, json);
+                        //dbh.updateLDM(ldm);
+
+                    }
+                    //readRFID(sb.toString());
+                    //System.out.println("ANGELO : [" + i + "]" + sb.toString());
                     //finally returning the read string
                     //Date now = new Date();
                     //String n = sdf.format(now);
@@ -944,23 +1036,105 @@ public class HttpHandler {
 
         try {
             JSONObject c = new JSONObject(msg);
-            String sec = c.getString("rfid");
-            String min = c.getString("Vehicle");
-            String hr = c.getString("Timein");
-            String date = c.getString("TimeOut");
-            String mon = c.getString("CardCode");
+            String gender = c.getString("gender");
+            String type = c.getString("type");
+            String service = c.getString("service");
+            String purpose = c.getString("purpose");
 
             // tmp hash map for single contact
             HashMap<String, String> contact = new HashMap<>();
 
             // adding each child node to HashMap key => value
-            contact.put("id", sec);
-            contact.put("name", min);
-            contact.put("email", hr);
-            contact.put("mobile", date);
+            contact.put("gender", gender);
+            contact.put("type", type);
+            contact.put("service", service);
+            contact.put("purpose", purpose);
 
             // adding contact to contact
-            System.out.println("ANGELO : "+ contact.get("id") + " : " + contact.get("name") + " : " + contact.get("email") + " : " + contact.get("mobile"));
+            System.out.println("ANGELO : gender: "+ contact.get("gender") + " type: " + contact.get("type") + " service: " + contact.get("service") + " purpose: " + contact.get("purpose"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*
+        if (jsonStr != null) {
+            try {
+                JSONObject jsonObj = new JSONObject(jsonStr);
+
+                // Getting JSON Array node
+                JSONArray contacts = jsonObj.getJSONArray("contacts");
+
+                // looping through All Contacts
+                for (int i = 0; i < contacts.length(); i++) {
+                    JSONObject c = contacts.getJSONObject(i);
+
+                    String id = c.getString("id");
+                    String name = c.getString("name");
+                    String email = c.getString("email");
+                    String address = c.getString("address");
+                    String gender = c.getString("gender");
+
+                    // Phone node is JSON Object
+                    JSONObject phone = c.getJSONObject("phone");
+                    String mobile = phone.getString("mobile");
+                    String home = phone.getString("home");
+                    String office = phone.getString("office");
+
+
+                }
+            } catch (final JSONException e) {
+                Log.e(TAG, "Json parsing error: " + e.getMessage());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Json parsing error: " + e.getMessage(),
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
+
+            }
+        } else {
+            Log.e(TAG, "Couldn't get json from server.");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Couldn't get json from server. Check LogCat for possible errors!",
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+            });
+
+        }
+        */
+    }
+
+    private void readCount(String msg) {
+        //String url = "http://api.androidhive.info/contacts/";
+        //url = "http://192.168.1.116/timecheck.php";
+        //HttpHandler sh = new HttpHandler();
+
+        // Making a request to url and getting response
+        //String jsonStr = sh.makeServiceCall(url);
+
+        try {
+            JSONObject c = new JSONObject(msg);
+            String regular = c.getString("regular");
+            String priority = c.getString("priority");
+
+            // tmp hash map for single contact
+            HashMap<String, String> contact = new HashMap<>();
+
+            // adding each child node to HashMap key => value
+            contact.put("regular", regular);
+            contact.put("priority", priority);
+            COUNT.getInstance().setRegularCount(Integer.parseInt(regular));
+            COUNT.getInstance().setPriorityCount(Integer.parseInt(priority));
+            // adding contact to contact
+            System.out.println("ANGELO : regular: "+ contact.get("regular") + " priority: " + contact.get("priority"));
 
         } catch (Exception e) {
             e.printStackTrace();

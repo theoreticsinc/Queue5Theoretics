@@ -24,6 +24,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.android.print.demo.bean.CONSTANTS;
+import com.android.print.demo.bean.COUNT;
 import com.android.print.demo.bluetooth.BluetoothDeviceList;
 import com.android.print.demo.bluetooth.BluetoothOperation;
 import com.android.print.demo.databinding.ActivityStarterBinding;
@@ -39,6 +41,7 @@ import com.android.print.sdk.wifi.WifiAdmin;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class StarterActivity extends AppCompatActivity implements EasyPermission.PermissionCallback{
 
@@ -64,7 +67,7 @@ public class StarterActivity extends AppCompatActivity implements EasyPermission
 
     public int regularCount = 0;
     public int priorityCount = 0;
-
+    public java.util.Timer cocTimer = new Timer();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,8 +93,11 @@ public class StarterActivity extends AppCompatActivity implements EasyPermission
         timer.schedule(myTask, 0, 2000);
         //Toast.makeText(context, R.string.yesconn, Toast.LENGTH_SHORT).show();
 
+        HttpHandler hh = new HttpHandler();
+        hh.RetrieveCurrentCount("http://"+ CONSTANTS.getInstance().getSERVERADDR() + "/undpqueue/retrieveCount.php?deskID=0");
+        cocTask = new CountOnlineCheck();
 
-
+        cocTimer.schedule(cocTask, 5000, 5000);
     }
 
     @Override
@@ -121,9 +127,15 @@ public class StarterActivity extends AppCompatActivity implements EasyPermission
             @Override
             public void run() {
                 if (type.startsWith("PRIORITY") == true) {
-                    PrintUtils.printTicket(mPrinter, "P0" + priorityCount, type, gender, purpose, service);
+                    if (priorityCount < 10) {
+                        PrintUtils.printTicket(mPrinter, "P0" + priorityCount, type, gender, purpose, service);
+                    } else
+                        PrintUtils.printTicket(mPrinter, "P" + priorityCount, type, gender, purpose, service);
                 } else {
-                    PrintUtils.printTicket(mPrinter, "R0" + regularCount, type, gender, purpose, service);
+                    if (regularCount < 10)
+                        PrintUtils.printTicket(mPrinter, "R0" + regularCount, type, gender, purpose, service);
+                    else
+                        PrintUtils.printTicket(mPrinter, "R" + regularCount, type, gender, purpose, service);
                 }
                 //PrintUtils.printTicket(mPrinter, "", type, gender, purpose, service);
                 //PrintUtils.printText2(context.getResources(), mPrinter);
@@ -135,6 +147,8 @@ public class StarterActivity extends AppCompatActivity implements EasyPermission
                 });
             }
         }.start();
+
+
     }
 
     private void initDialog(){
@@ -365,6 +379,16 @@ public class StarterActivity extends AppCompatActivity implements EasyPermission
     }
 
     private StarterActivity.MyTask myTask;
+    public StarterActivity.CountOnlineCheck cocTask;
+
+    public void createNewTaskTimer() {
+        cocTimer = new Timer();
+    }
+
+    public StarterActivity.CountOnlineCheck createNewCOCTask() {
+        cocTask = new CountOnlineCheck();
+        return cocTask;
+    }
 
     /**
      * wifi机器需要定时读取打印机数据, 如下代码
@@ -384,6 +408,32 @@ public class StarterActivity extends AppCompatActivity implements EasyPermission
         }
     }
 
+    public class CountOnlineCheck extends java.util.TimerTask {
+        @Override
+        public void run() {
+            System.out.println("ANGELO  :   Online Count Synchronizing...");
+            HttpHandler hh = new HttpHandler();
+            hh.RetrieveCurrentCount("http://" + CONSTANTS.getInstance().getSERVERADDR() + "/undpqueue/retrieveCount.php?deskID=0");
+
+            if (COUNT.getInstance().getRegularCount() <= regularCount) {
+                COUNT.getInstance().setRegularCount(regularCount);
+            } else {
+                regularCount = COUNT.getInstance().getRegularCount();
+                COUNT.getInstance().setRegularCount(regularCount);
+            }
+            hh.UpdateDisplayConnection("http://" + CONSTANTS.getInstance().getSERVERADDR() + "/undpqueue/updateDisplay.php?"
+                    + "regularCount=" + regularCount);
+
+            if (COUNT.getInstance().getPriorityCount() <= priorityCount) {
+                COUNT.getInstance().setPriorityCount(priorityCount);
+            } else {
+                priorityCount = COUNT.getInstance().getPriorityCount();
+                COUNT.getInstance().setPriorityCount(priorityCount);
+            }
+            hh.UpdateDisplayConnection("http://" + CONSTANTS.getInstance().getSERVERADDR() + "/undpqueue/updateDisplay.php?"
+                    + "priorityCount=" + priorityCount);
+        }
+    }
 
 
 

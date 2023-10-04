@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.android.print.demo.bean.CONSTANTS;
+import com.android.print.demo.bean.COUNT;
 import com.android.print.demo.databinding.FragmentFinalBinding;
 
 public class FinalFragment extends Fragment {
@@ -38,7 +40,47 @@ public class FinalFragment extends Fragment {
         binding.buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.printBigTicket();
+                activity.cocTimer.cancel();
+                activity.cocTimer.purge();
+                activity.cocTimer = null;
+                //Steps
+                //1. Retrieve from Central Database the Counts
+                //2. Add One then Update to Central Database
+                //3. Print the Ticket with [+1] already on it.
+                HttpHandler hh = new HttpHandler();
+
+                hh.RetrieveCurrentCount("http://"+ CONSTANTS.getInstance().getSERVERADDR() + "/undpqueue/retrieveCount.php?deskID=0");
+
+                    if (activity.type.contains("REGULAR")) {
+                        if (COUNT.getInstance().getRegularCount() <= activity.regularCount) {
+                            activity.regularCount++;
+                            COUNT.getInstance().setRegularCount(activity.regularCount);
+                        } else {
+                            activity.regularCount = COUNT.getInstance().getRegularCount() + 1;
+                            COUNT.getInstance().setRegularCount(activity.regularCount);
+                        }
+                        hh.UpdateDisplayConnection("http://"+ CONSTANTS.getInstance().getSERVERADDR() + "/undpqueue/updateDisplay.php?gender=" + activity.gender
+                                + "&purpose=" + activity.purpose
+                                + "&type=" + activity.type
+                                + "&regularCount=" + activity.regularCount
+                                + "&service=" + activity.service);
+                    } else {
+                        if (COUNT.getInstance().getPriorityCount() <= activity.priorityCount) {
+                            activity.priorityCount++;
+                            COUNT.getInstance().setPriorityCount(activity.priorityCount);
+                        } else {
+                            activity.priorityCount = COUNT.getInstance().getPriorityCount() + 1;
+                            COUNT.getInstance().setPriorityCount(activity.priorityCount);
+                        }
+                        hh.UpdateDisplayConnection("http://"+ CONSTANTS.getInstance().getSERVERADDR() + "/undpqueue/updateDisplay.php?gender=" + activity.gender
+                                + "&purpose=" + activity.purpose
+                                + "&type=" + activity.type
+                                + "&priorityCount=" + activity.priorityCount
+                                + "&service=" + activity.service);
+                    }
+                    activity.createNewTaskTimer();
+                    activity.cocTimer.schedule(activity.createNewCOCTask(), 5000, 5000);
+            activity.printBigTicket();
                 NavHostFragment.findNavController(FinalFragment.this)
                         .navigate(R.id.action_FifthFragment_to_FirstFragment);
             }
