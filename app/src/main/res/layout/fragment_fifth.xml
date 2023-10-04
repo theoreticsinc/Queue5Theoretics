@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FourthFragment">
+
+    <TextView
+        android:id="@+id/logoView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/leapslogo_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/requirements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="fill_horizontal|fill_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoView">
+
+        <TextView
+            android:id="@+id/mainText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginTop="1dp"
+            android:layout_weight=".30"
+            android:justificationMode="inter_word"
+            android:paddingLeft="30dp"
+            android:text="@string/request_bpa" />
+
+        <TextView
+            android:id="@+id/mainDocuments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_weight=".70"
+            android:paddingLeft="50dp"
+            android:text="@string/attachments_bpa" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/requirements">
+
+        <Button
+            android:id="@+id/button_proceed"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:background="@color/primaryDarkGreen"
+            android:fontWeight="800"
+            android:text="Proceed if Complete"
+            android:textColor="@color/white"
+
+            android:textSize="28sp" />
+        <android.support.v4.widget.Space
+            android:layout_width="5dp"
+            android:layout_height="1dp"></android.support.v4.widget.Space>
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:background="@color/primaryBlue"
+            android:fontWeight="800"
+            android:text="Cancel"
+            android:textColor="@color/white"
+
+            android:textSize="28sp" />
+    </android.support.v7.widget.LinearLayoutCompat>
+</android.support.constraint.ConstraintLayout>

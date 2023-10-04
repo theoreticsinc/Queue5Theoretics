@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ThirdFragment">
+
+    <TextView
+        android:id="@+id/logoView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/leapslogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoView">
+
+
+        <Button
+            android:id="@+id/button_availservices"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@color/primaryBlue"
+            android:fontWeight="800"
+            android:text="Avail Services"
+            android:textColor="@color/white"
+
+            android:textSize="28sp" />
+        <android.support.v4.widget.Space
+            android:layout_width="5dp"
+            android:layout_height="1dp"></android.support.v4.widget.Space>
+
+        <Button
+            android:id="@+id/button_inquiry"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:textSize="28sp"
+            android:background="@color/primaryGreen"
+            android:textColor="@color/white"
+            android:fontWeight="800"
+
+            android:text="Inquiry"/>
+    </android.support.v7.widget.LinearLayoutCompat>
+</android.support.constraint.ConstraintLayout>

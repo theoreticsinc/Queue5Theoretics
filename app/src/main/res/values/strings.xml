@@ -1,0 +1,129 @@
+<resources>
+    <!-- 格致微芯测试程序 -->
+    <string name="app_name">Queue Theoretics</string>
+    <string name="request_colb">
+        REQUIREMENTS\n
+        1. Check the Required Attachments for Applications Submission.\n
+        2. After clicking on the "Apply Now" button you will find the application form.\n
+        3. The fields marked with the "Red Star" in the "Upload Documents \&amp; Request Information" must be uploaded/filled.
+        Other attachments/fields are optional.\n
+        4. After filling all the fields, you can "Check &amp; Review" the filled up information even the
+        attached documents you\'ve uploaded in the very first step.\n
+        5. Before completing the application process. If required, the application can be "Saved As Draft" and
+        later resumed from the Dashboard.\n
+        6. After submission of application, a "Tracking Number" will be assigned to each
+        application which can be used to track the progress of the application from the portal.\n
+        7. Payment is required for the application, payment amount will be notified after submission of the application.
+    </string>
+    <string name="attachments_colb">
+        DOCUMENTS NEEDED\n
+        1. Barangay Clearance *\n
+        2. Community Tax Certificate *.\n
+        3. DTI Registration * \n
+        4. Fire Safety Inspection Certificate of Occupancy *
+    </string>
+    <string name="request_bpa">
+        REQUIREMENTS\n
+        1. On Time Application Must be Within the 30 Days of Birth.\n
+        2. Check the Required Attachments for Applications Submission.\n
+        3. After clicking on the "Apply Now" button you will find the application form.\n
+        4. The fields marked with the "Red Star" in the "Upload Documents &amp; Request Information"\nmust be uploaded/filled. Other attachments/fields are optional.\n
+        5. After filling all the fields, you can "Check &amp; Review" the filled up information even the\nattached documents you\'ve uploaded in the very first step.\n
+        6. Before completing the application process, if required, the application can be "Saved As\nDraft" and later resumed from the Dashboard.\n
+        7. After submission of application, a "Tracking Number" will be assigned to each\napplication which can be used to track the progress of the application from the portal.\n
+        8.Payment is required for the application depending on the Municipality. LGU Butig \&amp;\n Piagapo - 200 pesos.
+    </string>
+    <string name="attachments_bpa">
+        DOCUMENTS NEEDED\n
+        1. Valid ID of the applicant *\n
+        2. Cedula *.\n
+        3. Barangay Certificate * \n
+    </string>
+
+    <!--  DeviceListActivity -->
+    <string name="scanning">扫描设备中...</string>
+    <string name="select_device">请选择要连接的设备</string>
+    <string name="none_paired">没有匹配的设备</string>
+    <string name="has_paired">已配对</string>
+    <string name="not_paired">未配对</string>
+    <string name="rePaire_connect">重新配对并连接</string>
+    <string name="unpair">取消配对</string>
+    <string name="paire_connect">配对并连接</string>
+    <string name="connect_paired">连接</string>
+    <string name="select_options">选择操作</string>
+    <string name="none_found">没有找到设备</string>
+    <string name="no_bounded_device">未找到名称以 %s 开头的设备</string>
+    <string name="title_paired_devices">已配对的设备</string>
+    <string name="title_other_devices">其它可用设备</string>
+    <string name="button_scan">扫描新设备</string>
+
+    <!-- Options Menu -->
+    <string name="connect">打开连接</string>
+    <string name="disconnect">断开连接</string>
+
+
+    <!-- connect -->
+    <string name="no_conn_address">地址：未连接</string>
+    <string name="no_conn_name">名称：未连接</string>
+    <string name="str_address">地址：</string>
+    <string name="str_name">名称：</string>
+    <string name="str_message">提示：</string>
+    <string name="str_connlast">是否连接到上次设备？</string>
+    <string name="yesconn">Printer Connected</string>
+    <string name="str_resel">重新搜索</string>
+    <string name="str_wifi_now">当前连接的wifi是：</string>
+    <string name="str_wifi_no">尚未连接到任何wifi网络</string>
+    <string name="conn_failed">Connection Failed</string>
+    <string name="conn_closed">Connection Closed</string>
+    <string name="conn_no">No Connection</string>
+
+
+    <string name="bt_not_enabled">蓝牙没有启动</string>
+    <string name="bt_has_on">蓝牙已打开</string>
+    <string name="bt_has_off">蓝牙已关闭</string>
+    <string name="bt_print_success">打印成功</string>
+    <string name="bt_print_failed">BT Print Failed</string>
+    <string name="bt_connecting">BT Connecting..</string>
+    <string name="bt_connect_success">Connection Success..</string>
+    <string name="bt_connect_failed">Connection Failed</string>
+    <string name="bt_connect_closed">Connection Closed</string>
+    <string name="title_connecting">正在连接...</string>
+    <string name="title_connected">已连接</string>
+    <string name="title_not_connected">未连接</string>
+
+
+    <string name="gotoSettings">设置</string>
+    <string name="password">请输入密码：</string>
+    <string name="cancel">取消</string>
+    <string name="button_back">返回</string>
+
+
+    <string name="print">打印</string>
+    <string name="str_show">演示：</string>
+    <string name="str_image">打印图片效果展示：</string>
+    <string name="str_text">打印文本效果展示：</string>
+    <string name="str_text_left">文字居左效果演示abc123：</string>
+    <string name="str_text_right">文字居右效果演示abc123：</string>
+    <string name="str_text_center">文字居中效果演示abc123：</string>
+    <string name="str_text_strong">文字加粗效果演示abc123：</string>
+    <string name="str_text_underline">文字下划线效果演示abc123：</string>
+    <string name="str_text_height">同行不同高效果演示：：</string>
+    <string name="times">倍</string>
+    <string name="bigger">放大</string>
+    <string name="bigger1">倍效果演示abc123</string>
+    <string name="title_activity_starter">StarterActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="third_fragment_label">Third Fragment</string>
+    <string name="fourth_fragment_label">Fourth Fragment</string>
+    <string name="fifth_fragment_label">Fifth Fragment</string>
+    <string name="final_fragment_label">Final Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
