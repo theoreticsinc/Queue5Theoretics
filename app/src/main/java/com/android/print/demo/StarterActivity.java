@@ -39,6 +39,7 @@ import com.android.print.sdk.PrinterInstance;
 import com.android.print.sdk.wifi.WifiAdmin;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -68,6 +69,8 @@ public class StarterActivity extends AppCompatActivity implements EasyPermission
     public int regularCount = 0;
     public int priorityCount = 0;
     public java.util.Timer cocTimer = new Timer();
+    public java.util.Timer dateOverrideTimer = new Timer();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,14 +86,22 @@ public class StarterActivity extends AppCompatActivity implements EasyPermission
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         initDialog();
+        COUNT.getInstance().setRunningDate(new Date());
         // Auto Connect Default Printer
         myOpertion = new BluetoothOperation(context, mHandler);
         myOpertion.btAutoConn(context,  mHandler);
         isConnected = true;
         mPrinter = myOpertion.getPrinter();
+
+
         java.util.Timer timer = new Timer();
         myTask = new StarterActivity.MyTask();
         timer.schedule(myTask, 0, 2000);
+
+        java.util.Timer dtTimer = new Timer();
+        dcTask = new StarterActivity.DateCheckerTask();
+        timer.schedule(dcTask, 10000, 25000);
+
         //Toast.makeText(context, R.string.yesconn, Toast.LENGTH_SHORT).show();
 
         HttpHandler hh = new HttpHandler();
@@ -380,6 +391,7 @@ public class StarterActivity extends AppCompatActivity implements EasyPermission
 
     private StarterActivity.MyTask myTask;
     public StarterActivity.CountOnlineCheck cocTask;
+    public StarterActivity.DateCheckerTask dcTask;
 
     public void createNewTaskTimer() {
         cocTimer = new Timer();
@@ -435,6 +447,25 @@ public class StarterActivity extends AppCompatActivity implements EasyPermission
         }
     }
 
+    public class DateCheckerTask extends java.util.TimerTask {
+        @Override
+        public void run() {
+            Date now = new Date();
+            //System.out.println("ANGELO  :   COUNT.getInstance().getRunningDate().getDate()="+COUNT.getInstance().getRunningDate().getDate());
+            if (COUNT.getInstance().getRunningDate().getDate() != now.getDate()) {
+                System.out.println("ANGELO  :   RESETTING COUNT NOW...");
+                COUNT.getInstance().setPriorityCount(0);
+                COUNT.getInstance().setRegularCount(0);
+                priorityCount = 0;
+                regularCount = 0;
+                COUNT.getInstance().setRunningDate(now);
+                HttpHandler hh = new HttpHandler();
+                hh.UpdateDisplayConnection("http://" + CONSTANTS.getInstance().getSERVERADDR() + "/undpqueue/updateDisplay.php?"
+                        + "regularCount=" + regularCount
+                        + "&priorityCount=" + priorityCount);
+            }
+        }
+    }
 
 
     @Override

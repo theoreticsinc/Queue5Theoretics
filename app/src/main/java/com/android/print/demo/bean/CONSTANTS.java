@@ -4,7 +4,7 @@ public class CONSTANTS {
 
     private static CONSTANTS instance;
 
-    private String SERVERADDR = "192.168.254.106";
+    private String SERVERADDR = "192.168.254.60";
 
     public CONSTANTS(){}
 
